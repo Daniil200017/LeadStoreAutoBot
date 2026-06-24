@@ -1,0 +1,89 @@
+<ui:FluentWindow x:Class="LeadStoreAutoBot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:views="clr-namespace:LeadStoreAutoBot.Views"
+        xmlns:vm="clr-namespace:LeadStoreAutoBot.ViewModels"
+        d:DataContext="{d:DesignInstance vm:MainViewModel}"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="LeadStore Auto Bot"
+        Width="1320" Height="840"
+        MinWidth="1180" MinHeight="720"
+        WindowStartupLocation="CenterScreen"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        Background="{DynamicResource BgBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- TitleBar -->
+        <ui:TitleBar Grid.Row="0" Title="LeadStore Auto Bot"
+                     ShowMaximize="True" ShowMinimize="True"/>
+
+        <!-- Основной layout: левая панель настроек + правая часть с вкладками -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="380"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая панель -->
+            <views:SettingsPanel Grid.Column="0"
+                                 DataContext="{Binding}"/>
+
+            <!-- Правая часть: TabControl со вкладками -->
+            <Border Grid.Column="1" Background="{DynamicResource BgBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Вкладочная панель -->
+                    <Border Grid.Row="0" Background="{DynamicResource Bg2Brush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="0,0,0,1"
+                            Padding="12,6">
+                        <StackPanel Orientation="Horizontal" x:Name="TabBar">
+                            <RadioButton x:Name="TabMain"     Content="⚙ Главная"   IsChecked="True" Style="{StaticResource TabRadio}"/>
+                            <RadioButton x:Name="TabTable"    Content="📊 Таблица"   Style="{StaticResource TabRadio}"/>
+                            <RadioButton x:Name="TabHistory"  Content="📜 История"   Style="{StaticResource TabRadio}"/>
+                            <RadioButton x:Name="TabSettings" Content="🎨 Настройки" Style="{StaticResource TabRadio}"/>
+                            <RadioButton x:Name="TabHelp"     Content="📖 Справка"   Style="{StaticResource TabRadio}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Контент вкладок -->
+                    <Grid Grid.Row="1">
+                        <views:MainTab     DataContext="{Binding}" Visibility="{Binding ElementName=TabMain,     Path=IsChecked, Converter={StaticResource BoolToVis}}"/>
+                        <views:TableTab    DataContext="{Binding}" Visibility="{Binding ElementName=TabTable,    Path=IsChecked, Converter={StaticResource BoolToVis}}"/>
+                        <views:HistoryTab  DataContext="{Binding}" Visibility="{Binding ElementName=TabHistory,  Path=IsChecked, Converter={StaticResource BoolToVis}}"/>
+                        <views:SettingsTab DataContext="{Binding}" Visibility="{Binding ElementName=TabSettings, Path=IsChecked, Converter={StaticResource BoolToVis}}"/>
+                        <views:HelpTab     DataContext="{Binding}" Visibility="{Binding ElementName=TabHelp,     Path=IsChecked, Converter={StaticResource BoolToVis}}"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Status bar -->
+        <Border Grid.Row="2" Background="{DynamicResource Bg2Brush}"
+                BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0"
+                Padding="14,8">
+            <Grid>
+                <TextBlock Style="{StaticResource MutedText}"
+                           Text="{Binding StatusText}" HorizontalAlignment="Left"/>
+                <TextBlock Style="{StaticResource MutedText}" Text="v2.0  •  C# / WPF / .NET 9"
+                           HorizontalAlignment="Right"/>
+            </Grid>
+        </Border>
+    </Grid>
+</ui:FluentWindow>

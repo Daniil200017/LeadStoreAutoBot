@@ -1,0 +1,26 @@
+# Build output
+bin/
+obj/
+
+# Publish
+publish/
+*.exe
+*.dll
+*.pdb
+
+# Installer output
+LeadStoreAutoBot_Setup.exe
+
+# User runtime files
+bot_config.json
+bot_history.json
+bot_log.txt
+operators_detected.txt
+
+# IDE
+.vs/
+*.user
+
+# Temp patch scripts
+_*.py
+_*.txt

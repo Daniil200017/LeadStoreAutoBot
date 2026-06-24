@@ -1,0 +1,452 @@
+<UserControl x:Class="LeadStoreAutoBot.Views.HelpTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <!-- Стиль большого заголовка раздела (для секций) -->
+        <Style x:Key="SectionHeader" TargetType="TextBlock" BasedOn="{StaticResource BodyText}">
+            <Setter Property="FontSize"   Value="17"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="Margin"     Value="0,16,0,4"/>
+        </Style>
+
+        <!-- Текст заметки -->
+        <Style x:Key="NoteText" TargetType="TextBlock" BasedOn="{StaticResource BodyText}">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin"       Value="0,3,0,3"/>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer Padding="24,16,24,32" VerticalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="820" HorizontalAlignment="Left">
+
+            <!-- ── Заголовок ───────────────────────────────────────── -->
+            <TextBlock Text="⚡ LEADSTORE AUTO BOT" FontSize="22" FontWeight="Bold"
+                       Foreground="{DynamicResource AccentBrush}" Margin="0,8,0,0"/>
+            <TextBlock Text="Руководство пользователя" Style="{StaticResource MutedText}"
+                       FontSize="13" Margin="0,0,0,4"/>
+            <Border Background="{DynamicResource BorderBrush}" Height="1" Margin="0,8,0,0"/>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- ПОДГОТОВКА К РАБОТЕ                                    -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <TextBlock Text="ПОДГОТОВКА К РАБОТЕ" Style="{StaticResource SectionHeader}"/>
+            <Border Style="{StaticResource HelpSectionHeaderUnderline}"/>
+
+            <!-- Шаг 1 -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="1" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Настройте Google Sheets" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        Добавьте сервисный аккаунт в вашу таблицу как редактора:<LineBreak/><LineBreak/>
+                        →  <Run FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}">bot-426@leadstore-489120.iam.gserviceaccount.com</Run><LineBreak/><LineBreak/>
+                        Откройте таблицу → Настройки доступа → Добавить пользователя → вставьте адрес выше → выберите роль «Редактор» → Отправить.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <!-- Шаг 2 -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="2" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Структура таблицы" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}"
+                               Text="Таблица должна содержать три колонки в следующем порядке. Первая строка — заголовки (игнорируются программой)."/>
+                </StackPanel>
+            </Border>
+
+            <!-- Превью таблицы -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Пример структуры таблицы:" FontWeight="SemiBold"
+                               Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,8"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Заголовки -->
+                        <Border Grid.Row="0" Grid.Column="0" Background="{DynamicResource AccentBrush}" Padding="8,4" Margin="0,0,2,2">
+                            <TextBlock Text="Сайт (A)" Foreground="#0d1117" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="1" Background="{DynamicResource AccentBrush}" Padding="8,4" Margin="0,0,2,2">
+                            <TextBlock Text="Телефон O (B)" Foreground="#0d1117" FontWeight="Bold"/>
+                        </Border>
+                        <Border Grid.Row="0" Grid.Column="2" Background="{DynamicResource AccentBrush}" Padding="8,4" Margin="0,0,0,2">
+                            <TextBlock Text="Телефон M (C)" Foreground="#0d1117" FontWeight="Bold"/>
+                        </Border>
+
+                        <!-- Строка 1 -->
+                        <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource Bg3Brush}" Padding="8,4" Margin="0,0,2,1">
+                            <TextBlock Text="homprojekt.ru"/>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource Bg3Brush}" Padding="8,4" Margin="0,0,2,1">
+                            <TextBlock Text="74950707607"/>
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="2" Background="{DynamicResource Bg3Brush}" Padding="8,4" Margin="0,0,0,1">
+                            <TextBlock Text="74951165632"/>
+                        </Border>
+
+                        <!-- Строка 2 -->
+                        <Border Grid.Row="2" Grid.Column="0" Background="{DynamicResource Bg2Brush}" Padding="8,4" Margin="0,0,2,1">
+                            <TextBlock Text="sckollage.com"/>
+                        </Border>
+                        <Border Grid.Row="2" Grid.Column="1" Background="{DynamicResource Bg2Brush}" Padding="8,4" Margin="0,0,2,1">
+                            <TextBlock Text="79057306341"/>
+                        </Border>
+                        <Border Grid.Row="2" Grid.Column="2" Background="{DynamicResource Bg2Brush}" Padding="8,4" Margin="0,0,0,1">
+                            <TextBlock Text="—" Foreground="{DynamicResource Text2Brush}"/>
+                        </Border>
+
+                        <!-- Строка 3 -->
+                        <Border Grid.Row="3" Grid.Column="0" Background="{DynamicResource Bg3Brush}" Padding="8,4" Margin="0,0,2,0">
+                            <TextBlock Text="example.ru"/>
+                        </Border>
+                        <Border Grid.Row="3" Grid.Column="1" Background="{DynamicResource Bg3Brush}" Padding="8,4" Margin="0,0,2,0">
+                            <TextBlock Text="—" Foreground="{DynamicResource Text2Brush}"/>
+                        </Border>
+                        <Border Grid.Row="3" Grid.Column="2" Background="{DynamicResource Bg3Brush}" Padding="8,4" Margin="0,0,0,0">
+                            <TextBlock Text="74951234567"/>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- ЗАПУСК                                                  -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <TextBlock Text="ЗАПУСК" Style="{StaticResource SectionHeader}"/>
+            <Border Style="{StaticResource HelpSectionHeaderUnderline}"/>
+
+            <!-- Шаг 3 -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="3" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Заполните данные" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        Перейдите на вкладку <Run FontWeight="SemiBold">ГЛАВНАЯ</Run> и заполните все поля:<LineBreak/><LineBreak/>
+                        • <Run FontWeight="SemiBold">Email и Пароль</Run> — данные от кабинета LeadStore<LineBreak/>
+                        • <Run FontWeight="SemiBold">Ссылка на таблицу</Run> — полный URL Google Sheets<LineBreak/>
+                        • <Run FontWeight="SemiBold">Тег</Run> — метка для проектов (по умолчанию текущая дата)<LineBreak/>
+                        • <Run FontWeight="SemiBold">Источник сбора, Лимит, Дни недели, Регионы</Run> — по необходимости<LineBreak/><LineBreak/>
+                        ⌨️  При вводе Email, Пароля и ссылки на таблицу убедитесь, что вставка через Ctrl+V работает (программа поддерживает RU и EN раскладку).
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <!-- Шаг 4 -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="4" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Нажмите ⏵ ЗАПУСТИТЬ" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        После нажатия кнопки <Run FontWeight="SemiBold">⏵ ЗАПУСТИТЬ</Run> в Selenium-режиме откроется окно браузера Chrome — это нормально. Браузер можно свернуть, но <Run FontWeight="SemiBold" Foreground="{DynamicResource YellowBrush}">не закрывать</Run>.<LineBreak/><LineBreak/>
+                        Прогресс отображается в консоли на вкладке Главная.<LineBreak/>
+                        Кнопка <Run FontWeight="SemiBold">⏸ ПАУЗА</Run> — останавливает после текущего проекта.<LineBreak/>
+                        Кнопка <Run FontWeight="SemiBold">⏹ СТОП</Run> — завершает работу.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <!-- Шаг 5 -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="5" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Результаты" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        По завершении ячейки выполненных телефонов будут выделены жёлтым цветом прямо в вашей Google Таблице.<LineBreak/><LineBreak/>
+                        <Run FontWeight="SemiBold">Столбец A (сайты) никогда не изменяется программой.</Run>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- ПОДСКАЗКИ                                               -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <TextBlock Text="ПОДСКАЗКИ" Style="{StaticResource SectionHeader}"/>
+            <Border Style="{StaticResource HelpSectionHeaderUnderline}"/>
+
+            <TextBlock Style="{StaticResource NoteText}" Foreground="{DynamicResource AccentBrush}"
+                       Text="💡  Вкладка ТАБЛИЦА — просматривайте данные и следите за прогрессом в реальном времени"/>
+            <TextBlock Style="{StaticResource NoteText}" Foreground="{DynamicResource AccentBrush}"
+                       Text="💡  Ctrl+C в консоли — копирует выделенный текст"/>
+            <TextBlock Style="{StaticResource NoteText}" Foreground="{DynamicResource AccentBrush}"
+                       Text="💡  Ctrl+F в консоли — открывает поиск (Enter — следующее совпадение)"/>
+            <TextBlock Style="{StaticResource NoteText}" Foreground="{DynamicResource YellowBrush}"
+                       Text="⚠️  Не закрывайте окно Chrome во время работы бота в Selenium-режиме"/>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- 📋 РУЧНОЙ РЕЖИМ ТАБЛИЦЫ                                 -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <TextBlock Text="📋 РУЧНОЙ РЕЖИМ ТАБЛИЦЫ" Style="{StaticResource SectionHeader}"/>
+            <Border Style="{StaticResource HelpSectionHeaderUnderline}"/>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="1" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Когда использовать" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        Если бот неправильно читает Google Таблицу — используй ручной ввод. На левой панели в блоке <Run FontWeight="SemiBold">Источник данных</Run> включи переключатель <Run FontWeight="SemiBold">«Ручной ввод (без Google)»</Run>. Ссылка на таблицу при этом не нужна.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="2" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Как вставить данные" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        Скопируй строки из Google Sheets или Excel (<Run FontWeight="SemiBold">Ctrl+C</Run>). Перейди на вкладку <Run FontWeight="SemiBold">ТАБЛИЦА</Run> и нажми <Run FontWeight="SemiBold">Ctrl+V</Run> — данные распределятся по колонкам Сайт / Тел.О / Тел.М автоматически.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="3" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Редактирование ячеек" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        Двойной клик — открыть ячейку для редактирования. <Run FontWeight="SemiBold">Enter</Run> или <Run FontWeight="SemiBold">Tab</Run> — сохранить и перейти к следующей ячейке. <Run FontWeight="SemiBold">Escape</Run> — отменить. Внизу таблицы всегда есть пустые строки — просто кликай и пиши.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="4" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Горячие клавиши таблицы" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}" FontFamily="Consolas">
+                        Ctrl+V  — вставить из буфера<LineBreak/>
+                        Ctrl+C  — копировать выделенные ячейки<LineBreak/>
+                        Del     — очистить выделенные ячейки<LineBreak/>
+                        Tab / Стрелки — навигация по ячейкам<LineBreak/>
+                        Enter   — следующая ячейка
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource NoteText}" Foreground="{DynamicResource AccentBrush}"
+                       Text="Порядок колонок при вставке: Сайт — Тел.О — Тел.М. Если первая колонка номер строки — она игнорируется автоматически."/>
+            <TextBlock Style="{StaticResource NoteText}"
+                       Text="В ручном режиме жёлтая подсветка в Google Sheets не работает — бот работает только с данными в приложении."/>
+            <TextBlock Style="{StaticResource NoteText}" Foreground="{DynamicResource YellowBrush}"
+                       Text="⚠️  Данные одного сайта не работают на других платформах"/>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- 🚀 РЕЖИМ API                                             -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <TextBlock Text="🚀 РЕЖИМ API (без браузера)" Style="{StaticResource SectionHeader}"/>
+            <Border Style="{StaticResource HelpSectionHeaderUnderline}"/>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="1" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Что такое API режим" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        API режим позволяет создавать проекты <Run FontWeight="SemiBold">БЕЗ браузера Chrome</Run> — напрямую через prostats.info API.<LineBreak/><LineBreak/>
+                        <Run FontWeight="SemiBold">Скорость:</Run> ~1 секунда на проект вместо 15-30 секунд.<LineBreak/><LineBreak/>
+                        На каждый телефон создаётся 3 проекта:<LineBreak/>
+                        &#160;&#160;<Run FontFamily="Consolas">B1_{телефон}_{сайт}_{тип}</Run>  — МТС<LineBreak/>
+                        &#160;&#160;<Run FontFamily="Consolas">B2_{телефон}_{сайт}_{тип}</Run>  — Билайн<LineBreak/>
+                        &#160;&#160;<Run FontFamily="Consolas">B3_{телефон}_{сайт}_{тип}</Run>  — Ростелеком
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="2" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Как получить API токен" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        <Run FontWeight="Bold" Foreground="{DynamicResource YellowBrush}">ВАЖНО:</Run> API токен изначально <Run FontWeight="SemiBold">НЕ ВЫДАЁТСЯ</Run> автоматически. Его необходимо <Run FontWeight="SemiBold">ЗАПРОСИТЬ</Run> у технической поддержки сервиса.<LineBreak/><LineBreak/>
+                        Для получения токена:<LineBreak/>
+                        &#160;&#160;1. Напишите в поддержку (Telegram/email сервиса)<LineBreak/>
+                        &#160;&#160;2. Укажите ваш аккаунт и запросите активацию API<LineBreak/>
+                        &#160;&#160;3. После активации токен появится в кабинете:<LineBreak/>
+                        &#160;&#160;&#160;&#160;&#160;Личный кабинет → вкладка «API» → поле «ТОКЕН»<LineBreak/><LineBreak/>
+                        Токен выглядит так:<LineBreak/>
+                        &#160;&#160;<Run FontFamily="Consolas" Foreground="{DynamicResource AccentBrush}">75f6b83a-60c6-4894-ac61-da9aa0a17d1c</Run>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Border Style="{StaticResource HelpStepBadge}">
+                            <TextBlock Text="3" Foreground="#0d1117" FontWeight="Bold" FontSize="14"/>
+                        </Border>
+                        <TextBlock Text="  Как использовать" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        1. В дропдауне <Run FontWeight="SemiBold">«Платформа»</Run> выберите <Run FontWeight="SemiBold">«🚀 API режим»</Run><LineBreak/>
+                        2. В появившемся поле <Run FontWeight="SemiBold">«API токен»</Run> вставьте токен из личного кабинета<LineBreak/>
+                        3. Настройте таблицу, параметры проектов как обычно<LineBreak/>
+                        4. Нажмите <Run FontWeight="SemiBold">⏵ ЗАПУСТИТЬ</Run> — браузер не откроется<LineBreak/><LineBreak/>
+                        Токен можно вставить через <Run FontWeight="SemiBold">Ctrl+V</Run> на ЛЮБОЙ раскладке (RU/EN).<LineBreak/><LineBreak/>
+                        У каждого аккаунта — свой токен. Для разных сайтов (LeadStore, DSLeadsPlus и т.д.) токен может быть разным.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource NoteText}" Foreground="{DynamicResource AccentBrush}"
+                       Text="💡  Пропуск дублей в API режиме работает автоматически — бот сверяет список существующих проектов перед созданием"/>
+            <TextBlock Style="{StaticResource NoteText}" Foreground="{DynamicResource YellowBrush}"
+                       Text="⚠️  Без активации API в поддержке токен работать не будет"/>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- 🎨 ЦВЕТОВЫЕ ОБОЗНАЧЕНИЯ                                  -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <TextBlock Text="🎨 ЦВЕТОВЫЕ ОБОЗНАЧЕНИЯ В GOOGLE ТАБЛИЦЕ" Style="{StaticResource SectionHeader}"/>
+            <Border Style="{StaticResource HelpSectionHeaderUnderline}"/>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <Grid Margin="0,2,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="#FFF299" Width="20" Height="20" CornerRadius="3" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource NoteText}"
+                                   Text="Жёлтый — проекты успешно созданы (все 3 оператора: МТС, Билайн, Ростелеком)"/>
+                    </Grid>
+                    <Grid Margin="0,4,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="#F59999" Width="20" Height="20" CornerRadius="3" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource NoteText}"
+                                   Text="Красный — номер уже существовал на сервере (дубль), пропущен"/>
+                    </Grid>
+                    <Grid Margin="0,4,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="#FFC7DC" Width="20" Height="20" CornerRadius="3" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource NoteText}"
+                                   Text="Розовый — номер в колонке «Менеджеры» (C) совпадает с номером в колонке «Операторы» (B) — пропущен"/>
+                    </Grid>
+                    <Grid Margin="0,4,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="#99C7FF" Width="20" Height="20" CornerRadius="3" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource NoteText}"
+                                   Text="Синий — строка без источника (колонка A пустая), все номера этой строки пропущены"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- ⌨️ ГОРЯЧИЕ КЛАВИШИ                                       -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <TextBlock Text="⌨️ ГОРЯЧИЕ КЛАВИШИ" Style="{StaticResource SectionHeader}"/>
+            <Border Style="{StaticResource HelpSectionHeaderUnderline}"/>
+
+            <Border Style="{StaticResource Card}">
+                <TextBlock Style="{StaticResource NoteText}" FontFamily="Consolas">
+                    <Run Foreground="{DynamicResource AccentBrush}">Консоль (вкладка Главная):</Run><LineBreak/>
+                    &#160;&#160;Ctrl+F  — открыть поиск (Enter — далее, Shift+Enter — назад, Esc — закрыть)<LineBreak/>
+                    &#160;&#160;Ctrl+C  — копировать выделенный текст<LineBreak/><LineBreak/>
+                    <Run Foreground="{DynamicResource AccentBrush}">Таблица (вкладка Таблица):</Run><LineBreak/>
+                    &#160;&#160;Ctrl+V  — вставить из буфера (Excel/Sheets)<LineBreak/>
+                    &#160;&#160;Ctrl+C  — копировать выделенные ячейки<LineBreak/>
+                    &#160;&#160;Del     — очистить выделенные ячейки<LineBreak/>
+                    &#160;&#160;Tab / Стрелки — навигация по ячейкам<LineBreak/><LineBreak/>
+                    <Run Foreground="{DynamicResource AccentBrush}">Поля ввода:</Run><LineBreak/>
+                    &#160;&#160;Ctrl+V / Ctrl+C / Ctrl+Z / Ctrl+A — работают на любой раскладке (RU/EN)
+                </TextBlock>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- О ПРОГРАММЕ                                             -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <TextBlock Text="ℹ О ПРОГРАММЕ" Style="{StaticResource SectionHeader}"/>
+            <Border Style="{StaticResource HelpSectionHeaderUnderline}"/>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource NoteText}">
+                        <Run FontWeight="SemiBold">LeadStore Auto Bot 2.0</Run> — C# / WPF / .NET 9<LineBreak/>
+                        Поддерживаемые CRM: LeadStore, DSLeadsPlus, BDataItPlus, TechBData, BoardTraff, TehDataPro<LineBreak/>
+                        Режимы: API (быстрый, без браузера) и Selenium (через Chrome)
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

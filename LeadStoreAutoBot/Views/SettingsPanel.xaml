@@ -1,0 +1,235 @@
+<UserControl x:Class="LeadStoreAutoBot.Views.SettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:vm="clr-namespace:LeadStoreAutoBot.ViewModels"
+             d:DataContext="{d:DesignInstance vm:MainViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="{DynamicResource Bg2Brush}">
+    <UserControl.Resources>
+        <Storyboard x:Key="ToastFade">
+            <DoubleAnimation Storyboard.TargetName="ToastBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0" To="1" Duration="0:0:0.2"/>
+            <DoubleAnimation Storyboard.TargetName="ToastBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1" To="1" BeginTime="0:0:0.2" Duration="0:0:1.5"/>
+            <DoubleAnimation Storyboard.TargetName="ToastBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1" To="0" BeginTime="0:0:1.7" Duration="0:0:0.4"/>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="14,12,14,12">
+        <StackPanel>
+
+            <!-- Платформа -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="🌐 Платформа" Margin="0,0,0,8"/>
+                    <ComboBox ItemsSource="{Binding SiteNames}"
+                              SelectedItem="{Binding SelectedSite}"
+                              Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Авторизация -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="🔐 Авторизация" Margin="0,0,0,8"/>
+
+                    <!-- API режим -->
+                    <StackPanel Visibility="{Binding UseApiMode, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Style="{StaticResource MutedText}" Text="API токен" Margin="0,0,0,2"/>
+                        <TextBox Text="{Binding ApiToken, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+
+                    <!-- Быстрый вход -->
+                    <StackPanel Visibility="{Binding UseQuickUrl, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Style="{StaticResource MutedText}" Text="Ссылка-приглашение" Margin="0,0,0,2"/>
+                        <TextBox Text="{Binding QuickUrl, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+
+                    <!-- Обычный вход (виден только когда не API и не Quick) -->
+                    <StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UseApiMode}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding UseQuickUrl}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBlock Style="{StaticResource MutedText}" Text="Email" Margin="0,0,0,2"/>
+                        <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,6"/>
+                        <TextBlock Style="{StaticResource MutedText}" Text="Пароль" Margin="0,0,0,2"/>
+                        <PasswordBox x:Name="PwdBox" PasswordChanged="PwdBox_PasswordChanged"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Источник данных -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="📊 Источник данных" Margin="0,0,0,8"/>
+                    <ui:ToggleSwitch Content="Ручной ввод (без Google)"
+                                     IsChecked="{Binding UseManualTable}" Margin="0,0,0,6"/>
+                    <TextBox Text="{Binding SheetUrl, UpdateSourceTrigger=PropertyChanged}"
+                             Tag="Ссылка на Google Таблицу"
+                             Visibility="{Binding UseManualTable, Converter={StaticResource BoolToVisInverse}}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Параметры проекта -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="📋 Параметры проекта" Margin="0,0,0,8"/>
+
+                    <TextBlock Style="{StaticResource MutedText}" Text="Тег"/>
+                    <TextBox Text="{Binding Tag, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,6"/>
+
+                    <TextBlock Style="{StaticResource MutedText}" Text="Источник сбора"/>
+                    <ComboBox ItemsSource="{Binding SourceNames}"
+                              SelectedItem="{Binding SelectedSource}"
+                              Margin="0,0,0,6"/>
+
+                    <TextBlock Style="{StaticResource MutedText}" Text="Дневной лимит"/>
+                    <TextBox Text="{Binding Limit, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,6"/>
+
+                    <Grid Margin="0,2,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Style="{StaticResource MutedText}" Text="Строки от"/>
+                            <TextBox Text="{Binding RangeFrom, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Style="{StaticResource MutedText}" Text="до (пусто = все)"/>
+                            <TextBox Text="{Binding RangeTo, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Дни недели -->
+            <!-- Операторы -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="📱 Операторы" Margin="0,0,0,8"/>
+                    <ItemsControl ItemsSource="{Binding Operators}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Display}"
+                                          IsChecked="{Binding IsSelected}"
+                                          Margin="0,2,16,2"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+                        <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="📅 Дни работы" Margin="0,0,0,8"/>
+                    <ItemsControl ItemsSource="{Binding Days}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Label}"
+                                          IsChecked="{Binding IsSelected}"
+                                          Margin="0,2,12,2"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Регионы -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,8">
+                        <TextBlock Style="{StaticResource HeaderText}" Text="🗺 Регионы" HorizontalAlignment="Left"/>
+                        <CheckBox Content="Все" IsChecked="{Binding AllRegions}"
+                                  HorizontalAlignment="Right"/>
+                    </Grid>
+                    <TextBox Text="{Binding RegionFilter, UpdateSourceTrigger=PropertyChanged}"
+                             Tag="🔍 поиск..."
+                             Margin="0,0,0,6"/>
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:Button Grid.Column="0" Content="✓ Выбрать все"
+                                   Click="SelectAllRegions_Click"
+                                   HorizontalAlignment="Stretch" Padding="8,4"/>
+                        <ui:Button Grid.Column="2" Content="✕ Сбросить"
+                                   Command="{Binding ClearAllRegionsCommand}"
+                                   HorizontalAlignment="Stretch" Padding="8,4"/>
+                    </Grid>
+                    <Border Background="{DynamicResource Bg3Brush}"
+                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                            CornerRadius="4" Padding="6" Height="220"
+                            IsEnabled="{Binding AllRegions, Converter={StaticResource BoolToVisInverse}, ConverterParameter=enabled}">
+                        <ScrollViewer x:Name="RegionsScroll"
+                                      VerticalScrollBarVisibility="Auto"
+                                      PreviewMouseWheel="RegionsScroll_PreviewMouseWheel">
+                            <ItemsControl ItemsSource="{Binding Regions}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Content="{Binding Name}"
+                                                  IsChecked="{Binding IsSelected}"
+                                                  Margin="0,1,0,1">
+                                            <CheckBox.Visibility>
+                                                <Binding Path="IsVisible" Converter="{StaticResource BoolToVis}"/>
+                                            </CheckBox.Visibility>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+
+        <!-- Тост-уведомление: появляется снизу, плавно гаснет -->
+        <Border x:Name="ToastBorder"
+                VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                Margin="0,0,0,16" Padding="14,8"
+                CornerRadius="6"
+                Background="{DynamicResource Bg3Brush}"
+                BorderBrush="{DynamicResource YellowBrush}"
+                BorderThickness="1"
+                Opacity="0"
+                IsHitTestVisible="False">
+            <TextBlock x:Name="ToastText"
+                       Text="Сначала выключите «Все регионы»"
+                       Foreground="{DynamicResource TextBrush}"
+                       FontWeight="SemiBold"/>
+        </Border>
+    </Grid>
+</UserControl>

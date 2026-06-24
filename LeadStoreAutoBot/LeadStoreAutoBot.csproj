@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <RootNamespace>LeadStoreAutoBot</RootNamespace>
+    <AssemblyName>LeadStoreAutoBot</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+    <ApplicationIcon>Resources\leadstore_bot.ico</ApplicationIcon>
+    <Version>2.1.0</Version>
+    <AssemblyTitle>LeadStore Auto Bot</AssemblyTitle>
+    <Product>LeadStore Auto Bot</Product>
+    <Description>Автоматизация создания проектов в CRM (LeadStore, prostats и др.)</Description>
+
+    <!-- Параметры publish (используются при `dotnet publish`) -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <!-- WAV-файлы оставляем отдельными в Resources/Sounds/ (NAudio.WaveFileReader умеет с диска).
+         Bundle их в exe — лишний труд, и Inno Setup не сможет их пакетировать отдельно. -->
+    <IncludeAllContentForSelfExtract>false</IncludeAllContentForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="WPF-UI" Version="3.0.5" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.27.0" />
+    <PackageReference Include="Selenium.Support" Version="4.27.0" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.68.0.3393" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\leadstore_bot.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Resources\leadstore_bot.ico" Condition="Exists('Resources\leadstore_bot.ico')" />
+    <Content Include="Resources\Sounds\*.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- Selenium NuGet содержит binary для всех платформ, но dotnet publish копирует только
+       один (часто macos). Принудительно копируем windows-бинарь после publish. -->
+  <Target Name="CopySeleniumManagerWindows" AfterTargets="Publish">
+    <ItemGroup>
+      <SeleniumManagerWindowsBin Include="$(NuGetPackageRoot)selenium.webdriver\4.27.0\manager\windows\selenium-manager.exe"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(SeleniumManagerWindowsBin)"
+          DestinationFolder="$(PublishDir)selenium-manager\windows\"
+          SkipUnchangedFiles="true"
+          Condition="Exists('@(SeleniumManagerWindowsBin)')"/>
+  </Target>
+
+</Project>
