@@ -10,7 +10,7 @@
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon>Resources\leadstore_bot.ico</ApplicationIcon>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <AssemblyTitle>LeadStore Auto Bot</AssemblyTitle>
     <Product>LeadStore Auto Bot</Product>
     <Description>Автоматизация создания проектов в CRM (LeadStore, prostats и др.)</Description>

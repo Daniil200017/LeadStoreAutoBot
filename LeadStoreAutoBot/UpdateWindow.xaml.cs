@@ -18,6 +18,12 @@ public partial class UpdateWindow : Window
     {
         try
         {
+            if (System.IO.File.Exists(Services.AppPaths.UpdateMarkerPath))
+            {
+                var ver = System.IO.File.ReadAllText(Services.AppPaths.UpdateMarkerPath).Trim();
+                try { System.IO.File.Delete(Services.AppPaths.UpdateMarkerPath); } catch { }
+                MessageBox.Show($"Приложение обновлено до версии {ver}!", "Обновление", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
             SetStatus("Проверка обновлений...", true);
             var info = await UpdateService.CheckForUpdateAsync();
 
@@ -37,7 +43,7 @@ public partial class UpdateWindow : Window
             var newExe = await UpdateService.DownloadAsync(info.DownloadUrl, progress);
 
             SetStatus("Установка обновления...", true);
-            UpdateService.ApplyUpdateAndRestart(newExe);
+            UpdateService.ApplyUpdateAndRestart(newExe, info.Latest);
             Application.Current.Shutdown();
         }
         catch (Exception ex)

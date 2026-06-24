@@ -108,11 +108,13 @@ public static class UpdateService
     }
 
 
-    public static void ApplyUpdateAndRestart(string newExePath)
+    public static void ApplyUpdateAndRestart(string newExePath, Version? newVersion = null)
     {
         var currentExe = Environment.ProcessPath
                          ?? Process.GetCurrentProcess().MainModule?.FileName
                          ?? throw new InvalidOperationException("Cannot resolve exe path");
+
+        try { if (newVersion != null) File.WriteAllText(AppPaths.UpdateMarkerPath, newVersion.ToString()); } catch { }
 
         var pid = Environment.ProcessId;
         var batPath = Path.Combine(Path.GetTempPath(), $"LeadStoreAutoBot_update_{Guid.NewGuid():N}.bat");

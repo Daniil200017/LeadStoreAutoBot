@@ -30,4 +30,5 @@ public static class AppPaths
     public static string LogPath     => Path.Combine(BaseDirectory, "bot_log.txt");
 
     public static string OperatorsDetectPath => Path.Combine(BaseDirectory, "operators_detected.txt");
+    public static string UpdateMarkerPath    => Path.Combine(BaseDirectory, ".update_done");
 }
